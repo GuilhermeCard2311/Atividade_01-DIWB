@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript</title>
+</head>
+
+<body>
+    <script>
+        // Constantes não podem ser reatribuídas
+        const pi = 3.1415;
+
+        // Let respeita o escopo de bloco {}
+        let contador = 0;
+        if (true) {
+            let contador = 10; // Esta variável só existe aqui dentro
+            console.log(contador); // Saída: 10
+        }
+        console.log(contador); // Saída: 0        
+    </script>
+</body>
+
+</html>

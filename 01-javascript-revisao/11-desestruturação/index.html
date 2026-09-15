@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript</title>
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script>
+        // Desestruturação de Objetos
+        const usuario = { nome: "Carlos", idade: 28, cidade: "Belo Horizonte" };
+        const { nome, cidade } = usuario;
+        container.innerHTML = `<p>${nome}: ${cidade}</p>`; // Saída: Carlos: Belo Horizonte
+
+        // Desestruturação de Vetores (Arrays)
+        const cores = ["Azul", "Verde", "Amarelo", "Vermelho", "Roxo"];
+        const [primeiraCor, segundaCor] = cores;
+        container.innerHTML += `<p>${primeiraCor}: ${segundaCor}</p>`; // Saída: Azul: Verde
+
+        // Insira vírgulas para ignorar os elementos iniciais do vetor
+        const [, , terceiraCor] = cores;
+        container.innerHTML += `<p>Terceira cor: ${terceiraCor}</p>`; // Saída: Terceira cor: Amarelo
+
+        // Pula os dois primeiros e agrupa o resto
+        const [, , terceira, ...resto] = cores;
+        container.innerHTML += `<p>Terceira cor: ${terceira}</p>`; // Saída: Amarelo
+        container.innerHTML += `<p>Resto: ${resto.join(', ')}</p>`; // Saída: Resto: Vermelho, Roxo
+
+        // Pula da primeira à quinta, pega a sexta (vazia) e a sétima (vazia com padrão)
+        const [ , , , , , sexta, setima = 'branco'] = cores;
+        container.innerHTML += `<p>sexta: ${sexta}</p>`;  // Saída: undefined (está vazia e sem padrão)
+        container.innerHTML += `<p>setima: ${setima}</p>`; // Saída: branco (está vazia, mas assumiu o padrão)
+    </script>
+</body>
+
+</html>

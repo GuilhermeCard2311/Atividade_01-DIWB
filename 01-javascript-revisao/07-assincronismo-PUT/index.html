@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Atualizar Dados (PUT)</title>
+</head>
+
+<body>
+    <!-- Campos para o usuário preencher os dados da atualização -->
+    <div style="margin-bottom: 15px;">
+        <label for="idPostagem">ID da Postagem a ser Atualizada (1 a 100):</label><br>
+        <input type="number" id="idPostagem" placeholder="Digite o ID da postagem" style="width: 300px;" value="1"  min="1" max="100">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="idUsuario">ID do Usuário:</label><br>
+        <input type="number" id="idUsuario" placeholder="Digite o ID do usuário" style="width: 300px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="tituloPostagem">Novo Título da Postagem:</label><br>
+        <input type="text" id="tituloPostagem" placeholder="Digite o novo título" style="width: 300px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="conteudoPostagem">Novo Conteúdo da Postagem:</label><br>
+        <textarea id="conteudoPostagem" placeholder="Digite o novo conteúdo" style="width: 300px; height: 80px;"></textarea>
+    </div>
+
+    <button id="meuBotao">Atualizar Postagem</button>
+    <div id="container"></div>
+
+    <script>
+        const botao = document.querySelector("#meuBotao");
+        const inputIdPostagem = document.querySelector("#idPostagem");
+        const inputIdUsuario = document.querySelector("#idUsuario");
+        const inputTitulo = document.querySelector("#tituloPostagem");
+        const inputConteudo = document.querySelector("#conteudoPostagem");
+        const container = document.querySelector("#container");
+
+        // Assincronismo com Async/Await e Manipulação do DOM
+        botao.addEventListener("click", async () => {
+            const idPostagem = inputIdPostagem.value;
+            const idUsuario = inputIdUsuario.value;
+            const titulo = inputTitulo.value;
+            const conteudo = inputConteudo.value;
+
+            // Validação simples para não enviar campos vazios
+            if (!idPostagem || !titulo || !conteudo) {
+                container.innerHTML = "<p style='color: orange;'>Por favor, preencha todos os campos.</p>";
+                return;
+            }
+
+            try {
+                container.innerHTML = "<p>Atualizando dados...</p>";
+
+                // Configuração da requisição PUT: adicionamos o ID na URL e mudamos o método
+                const resposta = await fetch(`https://jsonplaceholder.typicode.com/posts/${idPostagem}`, {
+                    method: "PUT", // Define o método HTTP como PUT.
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8" // Indica que estamos enviando JSON.
+                    },
+                    body: JSON.stringify({
+                        id: parseInt(idPostagem),
+                        userId: parseInt(idUsuario),
+                        title: titulo,
+                        body: conteudo
+                    })
+                });
+
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível atualizar a postagem no servidor.");
+                }
+
+                // A API simula a alteração e devolve o objeto modificado
+                const postagemAtualizada = await resposta.json();
+
+                // Renderiza a confirmação do que foi modificado
+                container.innerHTML = `
+                    <div style="border: 1px solid blue; padding: 10px; margin-top: 10px; background-color: #f4f8ff;">
+                        <h3 style="color: blue;">✓ Sucesso! Postagem atualizada no servidor.</h3>
+                        <p><b>ID da Postagem:</b> ${postagemAtualizada.id}</p>
+                        <p><b>ID do Usuário:</b> ${postagemAtualizada.userId}</p>
+                        <p><b>Novo Título:</b> ${postagemAtualizada.title}</p>
+                        <p><b>Novo Conteúdo:</b> ${postagemAtualizada.body}</p>
+                    </div>
+                `;
+            } catch (erro) {
+                console.error("Erro na requisição:", erro);
+                container.innerHTML = `<p style="color: red;">Erro: ${erro.message}</p>`;
+            } finally {
+                container.innerHTML += "<p><i>Requisição finalizada!</i></p>";
+            }
+        });
+    </script>
+</body>
+
+</html>

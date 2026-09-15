@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Excluir Dados (DELETE)</title>
+</head>
+
+<body>
+    <!-- Campo para o usuário preencher o ID da exclusão -->
+    <div style="margin-bottom: 15px;">
+        <label for="idPostagem">ID da Postagem a ser Excluída (1 a 100):</label><br>
+        <input type="number" id="idPostagem" placeholder="Digite o ID da postagem" style="width: 300px;" value="1" min="1" max="100">
+    </div>
+
+    <button id="meuBotao" style="background-color: red; color: white; padding: 10px 15px; border: none; cursor: pointer; font-weight: bold;">
+        Excluir Postagem
+    </button>
+    
+    <div id="container"></div>
+
+    <script>
+        const botao = document.querySelector("#meuBotao");
+        const inputIdPostagem = document.querySelector("#idPostagem");
+        const container = document.querySelector("#container");
+
+        // Assincronismo com Async/Await e Manipulação do DOM
+        botao.addEventListener("click", async () => {
+            const idPostagem = inputIdPostagem.value;
+
+            // O ID da postagem é obrigatório para saber qual postagem deletar
+            if (!idPostagem) {
+                container.innerHTML = "<p style='color: orange;'>Por favor, insira um ID de postagem válido.</p>";
+                return;
+            }
+
+            try {
+                container.innerHTML = "<p>Enviando requisição de exclusão...</p>";
+
+                // Configuração da requisição DELETE: passamos o ID na URL e mudamos o método
+                // Nota: Métodos DELETE não enviam cabeçalhos de conteúdo ("Content-type") nem corpo ("body")
+                const resposta = await fetch(`https://jsonplaceholder.typicode.com/posts/${idPostagem}`, {
+                    method: "DELETE" // Método HTTP alterado para DELETE.
+                });
+
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível excluir a postagem no servidor.");
+                }
+
+                // O JSONPlaceholder devolve um objeto vazio {} quando o DELETE dá certo
+                await resposta.json();
+
+                // Renderiza a confirmação de exclusão
+                container.innerHTML = `
+                    <div style="border: 1px solid red; padding: 10px; margin-top: 10px; background-color: #fff5f5;">
+                        <h3 style="color: red;">✓ Sucesso! Postagem ${idPostagem} deletada do servidor.</h3>
+                        <p>O recurso foi removido com sucesso e não está mais disponível.</p>
+                    </div>
+                `;
+            } catch (erro) {
+                console.error("Erro na requisição:", erro);
+                container.innerHTML = `<p style="color: red;">Erro: ${erro.message}</p>`;
+            } finally {
+                container.innerHTML += "<p><i>Requisição finalizada!</i></p>";
+            }
+        });
+    </script>
+</body>
+
+</html>

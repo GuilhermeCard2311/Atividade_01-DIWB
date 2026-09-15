@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript</title>
+</head>
+
+<body>
+    <button id="meuBotao">Buscar Dados</button>
+    <div id="container">
+    </div>
+
+    <script>
+        const botao = document.querySelector("#meuBotao");
+        const container = document.querySelector("#container");
+
+        // Assincronismo com Async/Await e Manipulação do DOM:
+        botao.addEventListener("click", async () => {
+            try {
+                const resposta = await fetch("https://jsonplaceholder.typicode.com/posts");
+                const dados = await resposta.json();
+
+                container.innerHTML = dados.map(postagem => `<p>${postagem.id}: ${postagem.title}</p>`).join('');
+            } catch (erro) {
+                console.error("Erro na requisição:", erro);
+            } finally {
+                container.innerHTML += "<p>Requisição finalizada!</p>";
+            }
+        });
+    </script>
+</body>
+
+</html>

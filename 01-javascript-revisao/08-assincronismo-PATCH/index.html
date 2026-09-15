@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Atualização Parcial (PATCH)</title>
+</head>
+
+<body>
+    <!-- Campos para o usuário preencher os dados da atualização -->
+    <div style="margin-bottom: 15px;">
+        <label for="idPostagem">ID da Postagem a ser Modificada (1 a 100):</label><br>
+        <input type="number" id="idPostagem" placeholder="Digite o ID da postagem" style="width: 300px;" value="1" min="1" max="100">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="idUsuario">ID do Usuário (Opcional):</label><br>
+        <input type="number" id="idUsuario" placeholder="Digite o ID do usuário" style="width: 300px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="tituloPostagem">Novo Título da Postagem (Opcional):</label><br>
+        <input type="text" id="tituloPostagem" placeholder="Digite o novo título" style="width: 300px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="conteudoPostagem">Novo Conteúdo da Postagem (Opcional):</label><br>
+        <textarea id="conteudoPostagem" placeholder="Digite o novo conteúdo" style="width: 300px; height: 80px;"></textarea>
+    </div>
+
+    <button id="meuBotao">Modificar Postagem</button>
+    <div id="container"></div>
+
+    <script>
+        const botao = document.querySelector("#meuBotao");
+        const inputIdPostagem = document.querySelector("#idPostagem");
+        const inputIdUsuario = document.querySelector("#idUsuario");
+        const inputTitulo = document.querySelector("#tituloPostagem");
+        const inputConteudo = document.querySelector("#conteudoPostagem");
+        const container = document.querySelector("#container");
+
+        // Assincronismo com Async/Await e Manipulação do DOM
+        botao.addEventListener("click", async () => {
+            const idPostagem = inputIdPostagem.value;
+            const idUsuario = inputIdUsuario.value;
+            const titulo = inputTitulo.value;
+            const conteudo = inputConteudo.value;
+
+            // O ID da postagem é obrigatório para saber qual postagem atualizar
+            if (!idPostagem) {
+                container.innerHTML = "<p style='color: orange;'>Por favor, insira um ID de postagem válido.</p>";
+                return;
+            }
+
+            // Criamos um objeto vazio e adicionamos apenas o que o usuário preencheu
+            const dadosParciais = {};
+            
+            if (idUsuario) dadosParciais.userId = parseInt(idUsuario);
+            if (titulo) dadosParciais.title = titulo;
+            if (conteudo) dadosParciais.body = conteudo;
+
+            // Se o objeto continuar vazio, significa que o usuário não fez alteração
+            if (Object.keys(dadosParciais).length === 0) {
+                container.innerHTML = "<p style='color: orange;'>Por favor, altere pelo menos um campo antes de enviar.</p>";
+                return;
+            }
+
+            try {
+                container.innerHTML = "<p>Atualizando dados parciais...</p>";
+
+                // Configuração da requisição PATCH: adicionamos o ID na URL e mudamos o método para PATCH
+                const resposta = await fetch(`https://jsonplaceholder.typicode.com/posts/${idPostagem}`, {
+                    method: "PATCH", // Método HTTP para alterações parciais: PATCH.
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    },
+                    body: JSON.stringify(dadosParciais) // Enviamos apenas os campos modificados
+                });
+
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível atualizar a postagem no servidor.");
+                }
+
+                // O servidor junta as nossas modificações com os dados antigos e nos devolve
+                const postagemModificada = await resposta.json();
+
+                // Renderiza a confirmação do que mudou
+                container.innerHTML = `
+                    <div style="border: 1px solid orange; padding: 10px; margin-top: 10px; background-color: #fffbf5;">
+                        <h3 style="color: orange;">✓ Sucesso! Modificação parcial concluída (PATCH).</h3>
+                        <p><b>ID da Postagem:</b> ${postagemModificada.id}</p>
+                        <p><b>ID do Usuário:</b> ${postagemModificada.userId || 'Não alterado'}</p>
+                        <p><b>Título:</b> ${postagemModificada.title || 'Não alterado'}</p>
+                        <p><b>Conteúdo:</b> ${postagemModificada.body || 'Não alterado'}</p>
+                    </div>
+                `;
+            } catch (erro) {
+                console.error("Erro na requisição:", erro);
+                container.innerHTML = `<p style="color: red;">Erro: ${erro.message}</p>`;
+            } finally {
+                container.innerHTML += "<p><i>Requisição finalizada!</i></p>";
+            }
+        });
+    </script>
+</body>
+
+</html>

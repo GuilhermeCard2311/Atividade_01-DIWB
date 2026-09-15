@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript</title>
+</head>
+
+<body>
+    <div class="container">
+        <p id="paragrafo">Parágrafo.</p>
+        <button id="meuBotao">OK</button>
+    </div>
+
+    <script>
+      const botao = document.querySelector('button');
+      botao.addEventListener('click', minhaFuncao);
+      
+      function minhaFuncao() {
+        const parag = document.getElementById('paragrafo');
+        parag.textContent += ' Parágrafo alterado!';
+        parag.style ='color: blue; background-color: yellow; padding: 10px; font-size: 20px; font-weight: bold; border-radius: 5px;';
+      }
+
+      const meuBotao = document.querySelector('#meuBotao');
+      meuBotao.addEventListener('mouseover', () => {
+        const container = document.querySelector('.container');
+        container.insertAdjacentHTML('beforeend', '<p>Texto alterado com Arrow Function!</p>');
+        container.style.cssText = `color: white; 
+                                   background-color: red; 
+                                   padding: 10px; 
+                                   font-size: 20px; 
+                                   font-weight: bold;
+                                   border-radius: 5px;`;
+      });
+    </script>
+</body>
+
+</html>

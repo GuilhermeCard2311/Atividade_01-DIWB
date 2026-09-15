@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript</title>
+</head>
+
+<body>
+    <script>
+        // Função Tradicional
+        function somar(a, b) { return a + b; }
+        console.log(somar(3, 5)) // Saída: 8
+
+        // Função Anônima
+        const somarFuncaoAnonima = function (a, b) { return a + b; }
+        console.log(somarFuncaoAnonima(5, 6)) // Saída: 11
+
+        // Arrow Function (Retorno implícito em uma linha)
+        const somarArrowFunction = (a, b) => a + b;
+        console.log(somarArrowFunction(6, 7)) // Saída: 13
+
+        // Exemplo de Closure
+        function criarContador() {
+            let numero = 0;
+            return () => ++numero; // Mantém acesso à variável 'numero'
+        }
+        const meuContador = criarContador();
+        console.log(meuContador()); // Saída: 1
+        console.log(meuContador()); // Saída: 2
+
+        /* Outro exemplo de Closure:
+           Mesmo após a execução de criarNovoContador ter acabado, 
+           a função armazenada em meuNovoContador continua tendo 
+           acesso à variável contador.
+        */
+        function criarNovoContador() {
+            let contador = 0; // variável da função externa
+
+            return function () {
+                contador++; // a função interna usa a variável de fora
+                console.log(contador);
+            };
+        }
+
+        const meuNovoContador = criarNovoContador();
+        meuNovoContador(); // Saída: 1
+        meuNovoContador(); // Saída: 2
+
+        /* Outro exemplo de Closure:
+           Para retornar mais de uma função dentro de um Closure, 
+           a melhor estratégia é retornar um objeto contendo essas 
+           funções como métodos.
+           
+           Como todas as funções internas foram criadas dentro 
+           do mesmo escopo de criarContadorVariasFuncoes, todas 
+           elas compartilham e modificam a mesma variável contador.
+
+           OBS:
+           - Encapsulamento: a variável contador fica totalmente protegida. 
+             Ninguém consegue fazer meuContador.contador = 99 por fora do 
+             código. O acesso e a modificação acontecem exclusivamente pelos 
+             métodos permitidos.
+             
+           - Estado Compartilhado: as funções incrementar, decrementar e zerar 
+             não possuem cópias separadas da variável. Elas apontam para a mesma 
+             referência na memória que foi criada quando criarNovoContador() foi 
+             executada.           
+        */
+        function criarContadorVariasFuncoes() {
+            let contador = 0; // Variável privada da função externa.
+
+            // Retornamos um objeto onde cada propriedade é uma função (método):
+            return {
+                incrementar: function () {
+                    contador++;
+                    console.log(`Incrementou: ${contador}`);
+                },
+                decrementar: function () {
+                    contador--;
+                    console.log(`Decrementou: ${contador}`);
+                },
+                zerar: function () {
+                    contador = 0;
+                    console.log(`Zerou: ${contador}`);
+                }
+            };
+        }
+
+        const contadorVariasFuncoes = criarContadorVariasFuncoes();
+
+        contadorVariasFuncoes.incrementar(); // Saída: Incrementou: 1
+        contadorVariasFuncoes.incrementar(); // Saída: Incrementou: 2
+        contadorVariasFuncoes.decrementar(); // Saída: Decrementou: 1
+        contadorVariasFuncoes.zerar();       // Saída: Zerou: 0
+
+        /* Outro exemplo de Closure:
+           Você pode reescrever o retorno usando Arrow Functions .
+        */
+        function criarContadorVariasFuncoesArrowFunction() {
+            let contador = 0;
+
+            return {
+                incrementar: () => { contador++; console.log(contador); },
+                decrementar: () => { contador--; console.log(contador); },
+                zerar: () => { contador = 0; console.log(contador); }
+            };
+        }
+
+        const contadorVariasFuncoesArrowFunction = criarContadorVariasFuncoesArrowFunction();
+
+        contadorVariasFuncoesArrowFunction.decrementar(); // Saída: Decrementou: -1
+        contadorVariasFuncoesArrowFunction.decrementar(); // Saída: Decrementou: -2
+        contadorVariasFuncoesArrowFunction.incrementar(); // Saída: Incrementou: -1
+        contadorVariasFuncoesArrowFunction.zerar();       // Saída: Zerou: 0
+    </script>
+</body>
+
+</html>
