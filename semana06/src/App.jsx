@@ -1,14 +1,18 @@
-import './App.css'
-import Cabecalho from "./components/Cabecalho";
+import Cabecalho from './components/Cabecalho';
+import Rodape from './components/Rodape';
 
-const App = () =>{
-  return(
+function App() {
+  return (
     <div>
       <Cabecalho />
-      <h1>Minha primeira aplicação React</h1>
-      <h1>Bem vindo as aulas de <span className="destaque">DWBE</span></h1>
+      
+      <main>
+        {/* Conteúdo principal da página */}
+      </main>
+
+      <Rodape />
     </div>
-  ); 
+  );
 }
 
 export default App;
