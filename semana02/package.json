@@ -1,0 +1,40 @@
+{
+  "name": "diwbackend",
+  "version": "1.0.0",
+  "description": "meu aplicativo backend",
+  "keywords": [
+    "Web-Back-end"
+  ],
+  "homepage": "https://github.com/GuilhermeCard2311/Diwbackend#readme",
+  "bugs": {
+    "url": "https://github.com/GuilhermeCard2311/Diwbackend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuilhermeCard2311/Diwbackend.git"
+  },
+  "license": "ISC",
+  "author": "Guilherme Cardoso",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+     "git": "git add . && git commit -m \"atualizando\" && git push",
+     "exe01": "node 01-estrutura-sequencial.js",
+    "exe02": "node 02-estrutura-sequencial.js",
+    "exe03": "node 03-estrutura-condicional.js",
+    "exe04": "node 04-estrutura-condicional.js",
+    "exe05": "node 05-estrutura-de-repeticao.js",
+    "exe06": "node 06-estrutura-de-repeticao.js",
+    "exe07": "node 07-estrutura-de-repeticao.js",
+    "exe08": "node 08-vetor.js",
+    "exe09": "node 09-objeto.js",
+    "exe10": "node 10-funcao.js",
+    "semana02Exe01": "node semana02-exercicio1.js",
+    "semana02Exe02": "node semana02-exercicio2.js",
+    "semana02Exe03": "node semana02-exercicio3.js",
+    "semana02Exe04": "node semana02-exercicio4.js"
+  }
+}

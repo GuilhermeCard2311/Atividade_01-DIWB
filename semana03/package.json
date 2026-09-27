@@ -1,0 +1,18 @@
+{
+  "name": "semana03",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "atividade1": "node semana03_app.js",
+    "atividade2": "node semana03_profissão.js",
+    "atividade3": "node semana03_lista-alunos.js",
+    "atividade4": "node semana03_resultado_operacoes.js",
+    "atividade6": "node semana03_index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
