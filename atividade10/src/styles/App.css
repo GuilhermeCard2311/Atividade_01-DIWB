@@ -1,0 +1,64 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f9;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.titulo-sistema {
+  color: #1a2a3a;
+  margin-bottom: 4px;
+}
+
+.subtitulo-disciplina {
+  color: #6c757d;
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+.card-produto {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-produto h2 {
+  margin-top: 0;
+  color: #0d6efd;
+}
+
+.categoria {
+  display: inline-block;
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.preco {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #212529;
+}
+
+.status-disponivel {
+  color: #198754;
+  font-weight: bold;
+}
+
+.status-indisponivel {
+  color: #dc3545;
+  font-weight: bold;
+}
